@@ -1,0 +1,155 @@
+<?php
+require_once 'includes/functions.php';
+secureSessionStart();
+
+// Redirect if not logged in
+if (!isLoggedIn()) {
+    redirect('login.php');
+}
+
+// Get all domains
+$domains = getDomains();
+$isLoggedin = isLoggedIn();
+?>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Select Your Domain - TechVritti</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link rel="stylesheet" href="assets/css/select-domain.css" />
+</head>
+<body>
+        
+    <?php include "includes/header.php" ?>
+
+    <?php include "includes/progress-bar.php" ?>
+    
+
+    <!-- Overlay -->
+    <div class="overlay" id="overlay"></div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <div class="container">
+            <h1 class="header">Select Your Domain</h1>
+            
+            <div class="domain-grid">
+                <?php foreach ($domains as $domain): ?>
+                    <div class="domain-card" onclick="redirectTo('select-field.php?domain_id=<?php echo $domain['id']; ?>')">
+                        <div class="domain-icon">
+                            <?php if ($domain['name'] === 'IT'): ?>
+                                <i class="fas fa-laptop-code"></i>
+                            <?php elseif ($domain['name'] === 'Arts'): ?>
+                                <i class="fas fa-palette"></i>
+                            <?php else: ?>
+                                <i class="fas fa-graduation-cap"></i>
+                            <?php endif; ?>
+                        </div>
+                        <p class="domain-name"><?php echo $domain['name']; ?></p>
+                    </div>
+                <?php endforeach; ?>
+            </div>
+            
+            <!-- <div class="actions">
+                <a href="profile.php" class="btn-action btn-primary">
+                    <i class="fas fa-user"></i> My Profile
+                </a>
+                <a href="logout.php" class="btn-action btn-secondary">
+                    <i class="fas fa-sign-out-alt"></i> Logout
+                </a>
+            </div> -->
+        </div>
+    </div>
+    
+    <script>
+        // Toggle mobile menu
+        const navbarToggle = document.getElementById('navbar-toggle');
+        const navbarNav = document.getElementById('navbar-nav');
+        const overlay = document.getElementById('overlay');
+        
+        navbarToggle.addEventListener('click', function() {
+            navbarToggle.classList.toggle('active');
+            navbarNav.classList.toggle('active');
+            overlay.classList.toggle('active');
+            
+            // Prevent scrolling when menu is open
+            if (navbarNav.classList.contains('active')) {
+                document.body.style.overflow = 'hidden';
+            } else {
+                document.body.style.overflow = 'visible';
+            }
+        });
+        
+        // Close mobile menu when clicking on overlay
+        overlay.addEventListener('click', function() {
+            navbarToggle.classList.remove('active');
+            navbarNav.classList.remove('active');
+            overlay.classList.remove('active');
+            document.body.style.overflow = 'visible';
+        });
+        
+        // Close mobile menu when clicking on a nav link
+        const navLinks = document.querySelectorAll('.nav-link');
+        navLinks.forEach(link => {
+            link.addEventListener('click', function() {
+                navbarToggle.classList.remove('active');
+                navbarNav.classList.remove('active');
+                overlay.classList.remove('active');
+                document.body.style.overflow = 'visible';
+            });
+        });
+        
+        // Add shadow and change style on scroll
+        window.addEventListener('scroll', function() {
+            const navbar = document.getElementById('navbar');
+            if (window.scrollY > 10) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+        
+        function redirectTo(page) {
+            window.location.href = page;
+        }
+    </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+    // Set initial progress
+    updateProgressBar(1); // Start with step 1 active
+    
+    // Function to update progress bar
+    function updateProgressBar(currentStep) {
+        const totalSteps = 4;
+        const progressPercentage = ((currentStep - 1) / (totalSteps - 1)) * 100;
+        
+        // Update the progress line fill
+        const progressLine = document.getElementById('progressLineFill');
+        progressLine.style.width = `${progressPercentage}%`;
+        
+        // Update step statuses
+        const steps = document.querySelectorAll('.progress-step');
+        steps.forEach(step => {
+            const stepNumber = parseInt(step.dataset.step);
+            
+            // Reset all classes first
+            step.classList.remove('active', 'completed');
+            
+            // Apply appropriate class
+            if (stepNumber < currentStep) {
+                step.classList.add('completed');
+            } else if (stepNumber === currentStep) {
+                step.classList.add('active');
+            }
+        });
+    }
+    
+    // Expose the function globally so it can be called from other pages
+    window.updateProgressBar = updateProgressBar;
+});
+    </script>
+</body>
+</html>
