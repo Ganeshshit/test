@@ -1,9 +1,9 @@
 /* Base styles and reset */
 :root {
-    --primary-color: #4361ee;
-    --secondary-color: #7209b7;
-    --accent-color: #ff9e00;
-    --text-color: #2b2d42;
+    --primary-color: #fcc250;
+    --secondary-color: #29354d;
+    --accent-color: #fcc250;
+    --text-color: #29354d;
     --bg-color: #ffffff;
     --hover-color: #f8f9fa;
     --shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
@@ -151,16 +151,16 @@ a {
     .container {
         padding: 25px;
     }
-    
+
     .domain-grid {
         grid-template-columns: 1fr;
     }
-    
+
     .actions {
         flex-direction: column;
         align-items: center;
     }
-    
+
     .btn-action {
         width: 100%;
         max-width: 250px;

@@ -1,12 +1,12 @@
 :root {
-    --primary-color: #4361ee;
-    --secondary-color: #f0f4ff;
-    --accent-color: #f72585;
+    --primary-color: #fcc250;
+    --secondary-color: #29354d;
+    --accent-color: #fcc250;
     --success-color: #4cc9f0;
     --warning-color: #ff9e00;
     --danger-color: #e63946;
-    --info-color: #7209b7;
-    --text-color: #2b2d42;
+    --info-color: #29354d;
+    --text-color: #29354d;
     --light-gray: #f8f9fa;
     --border-color: #e9ecef;
     --sidebar-width: 240px;
@@ -350,31 +350,31 @@ body {
 }
 
 .btn-primary:hover {
-    background-color: #3051da;
+    background-color: #e9b048;
     transform: translateY(-2px);
-    box-shadow: 0 4px 8px rgba(67, 97, 238, 0.3);
+    box-shadow: 0 4px 8px rgba(252, 194, 80, 0.3);
 }
 
 .btn-secondary {
     background-color: var(--secondary-color);
-    color: var(--primary-color);
+    color: white;
 }
 
 .btn-secondary:hover {
-    background-color: #e0e6ff;
+    background-color: #1e2738;
     transform: translateY(-2px);
-    box-shadow: 0 4px 8px rgba(240, 244, 255, 0.5);
+    box-shadow: 0 4px 8px rgba(41, 53, 77, 0.5);
 }
 
 .btn-accent {
     background-color: var(--accent-color);
-    color: white;
+    color: var(--secondary-color);
 }
 
 .btn-accent:hover {
-    background-color: #e61c7a;
+    background-color: #e9b048;
     transform: translateY(-2px);
-    box-shadow: 0 4px 8px rgba(247, 37, 133, 0.3);
+    box-shadow: 0 4px 8px rgba(252, 194, 80, 0.3);
 }
 
 .btn-warning {
@@ -414,15 +414,15 @@ body {
         transition: left 0.3s ease;
         z-index: 1000;
     }
-    
+
     .sidebar.active {
         left: 0;
     }
-    
+
     .main-content {
         margin-left: 0;
     }
-    
+
     .toggle-sidebar {
         display: block;
         position: fixed;
@@ -448,11 +448,11 @@ body {
         flex-direction: column;
         gap: 0.5rem;
     }
-    
+
     .quiz-actions {
         grid-template-columns: 1fr 1fr;
     }
-    
+
     .sidebar {
         width: 80%;
     }

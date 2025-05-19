@@ -34,13 +34,13 @@
 }
 
 .auth-header h1 {
-    color: #2c3e50;
+    color: #29354d;
     font-size: 28px;
     margin-bottom: 10px;
 }
 
 .auth-header p {
-    color: #7f8c8d;
+    color: #29354d;
     font-size: 16px;
 }
 
@@ -70,13 +70,13 @@
     display: block;
     margin-bottom: 8px;
     font-weight: 600;
-    color: #34495e;
+    color: #29354d;
     font-size: 14px;
 }
 
 .form-group label i {
     margin-right: 8px;
-    color: #3498db;
+    color: #fcc250;
 }
 
 .form-group input[type="text"],
@@ -94,8 +94,8 @@
 }
 
 .form-group input:focus {
-    border-color: #3498db;
-    box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
+    border-color: #fcc250;
+    box-shadow: 0 0 0 3px rgba(252, 194, 80, 0.2);
     background-color: #fff;
     outline: none;
 }
@@ -118,7 +118,7 @@
 }
 
 .password-toggle:hover {
-    color: #3498db;
+    color: #fcc250;
 }
 
 .form-options {
@@ -146,7 +146,7 @@
 
 .forgot-password {
     font-size: 14px;
-    color: #3498db;
+    color: #fcc250;
     text-decoration: none;
 }
 
@@ -158,8 +158,8 @@
     display: block;
     width: 100%;
     padding: 14px;
-    background-color: #3498db;
-    color: white;
+    background-color: #fcc250;
+    color: #29354d;
     border: none;
     border-radius: 8px;
     font-size: 16px;
@@ -170,7 +170,7 @@
 }
 
 .btn-auth:hover {
-    background-color: #2980b9;
+    background-color: #e9b048;
     transform: translateY(-2px);
 }
 
@@ -197,7 +197,7 @@
 }
 
 .auth-footer a {
-    color: #3498db;
+    color: #fcc250;
     text-decoration: none;
     font-weight: 600;
 }
@@ -271,8 +271,8 @@
 }
 
 .file-input-button {
-    background-color: #3498db;
-    color: white;
+    background-color: #fcc250;
+    color: #29354d;
     padding: 10px 15px;
     border-radius: 6px;
     font-size: 14px;
@@ -282,7 +282,7 @@
 }
 
 .file-input-button:hover {
-    background-color: #2980b9;
+    background-color: #e9b048;
 }
 
 #file-name {
@@ -299,21 +299,21 @@
     .auth-card {
         padding: 30px 20px;
     }
-    
+
     .form-options {
         flex-direction: column;
         align-items: flex-start;
     }
-    
+
     .forgot-password {
         margin-top: 10px;
     }
-    
+
     .form-columns {
         flex-direction: column;
         gap: 0;
     }
-    
+
     .form-column {
         width: 100%;
     }

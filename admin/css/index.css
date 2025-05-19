@@ -5,7 +5,7 @@ body {
     justify-content: center;
     align-items: center;
     min-height: 100vh;
-    background: linear-gradient(to right, #1e3c72, #a8c0ff);
+    background: linear-gradient(to right, #29354d, #fcc250);
     margin: 0;
     padding: 20px;
 }
@@ -20,10 +20,10 @@ body {
 .header {
     font-size: 28px;
     font-weight: bold;
-    color: #1e3c72;
+    color: #29354d;
     text-align: center;
     padding-bottom: 10px;
-    border-bottom: 2px solid #1e3c72;
+    border-bottom: 2px solid #fcc250;
     margin-bottom: 20px;
 }
 .admin-menu {
@@ -85,7 +85,7 @@ tr:hover {
     background-color: #f1f1f1;
 }
 .btn {
-    background: #1e3c72;
+    background: #29354d;
     color: white;
     text-decoration: none;
     padding: 8px 12px;
@@ -96,7 +96,7 @@ tr:hover {
     display: inline-block;
 }
 .btn:hover {
-    background: #152c56;
+    background: #1e2738;
 }
 .btn-small {
     font-size: 12px;
@@ -116,7 +116,7 @@ tr:hover {
     background: #e0a63b;
 }
 .admin-content h2 {
-    color: #1e3c72;
+    color: #29354d;
     margin-bottom: 15px;
 }
 .status-valid {

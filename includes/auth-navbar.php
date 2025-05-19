@@ -13,9 +13,9 @@ $currentPage = basename($_SERVER['PHP_SELF']);
     <link rel="stylesheet" href="assets/css/style.css">
     <style>
         :root {
-    --primary-color: #4361ee;
-    --secondary-color: #7209b7;
-    --text-color: #333;
+    --primary-color: #fcc250;
+    --secondary-color: #29354d;
+    --text-color: #29354d;
     --bg-color: #fff;
     --hover-color: #f5f7ff;
     --shadow: 0 2px 6px rgba(0,0,0,0.05);
@@ -213,7 +213,7 @@ $currentPage = basename($_SERVER['PHP_SELF']);
     .navbar-toggle {
         display: block;
     }
-    
+
     .navbar-collapse {
         position: fixed;
         top: 0;
@@ -228,58 +228,58 @@ $currentPage = basename($_SERVER['PHP_SELF']);
         box-shadow: -2px 0 10px rgba(0, 0, 0, 0.1);
         margin-left: 0;
     }
-    
+
     .navbar-collapse.active {
         right: 0;
     }
-    
+
     .navbar-nav {
         flex-direction: column;
         width: 100%;
         margin-bottom: 2rem;
     }
-    
+
     .nav-item {
         width: 100%;
     }
-    
+
     .nav-link {
         width: 100%;
         text-align: center;
         padding: 0.75rem;
     }
-    
+
     .navbar-actions {
         flex-direction: column;
         width: 100%;
         gap: 1rem;
     }
-    
+
     .btn {
         width: 100%;
         text-align: center;
     }
-    
+
     .navbar-toggle.active .bar:nth-child(1) {
         transform: translateY(6px) rotate(45deg);
     }
-    
+
     .navbar-toggle.active .bar:nth-child(2) {
         opacity: 0;
     }
-    
+
     .navbar-toggle.active .bar:nth-child(3) {
         transform: translateY(-6px) rotate(-45deg);
     }
-    
+
     .nav-link:before {
         display: none;
     }
-    
+
     .nav-link:hover {
         background-color: var(--hover-color);
     }
-    
+
     .nav-link.active {
         background-color: var(--hover-color);
     }
@@ -313,16 +313,16 @@ $currentPage = basename($_SERVER['PHP_SELF']);
                 <!-- <img class="logo" src="" alt="logo" /> -->
                 <span class="company-name">Medini</span>
             </a>
-            
+
             <button class="navbar-toggle" id="navbar-toggle" aria-label="Toggle navigation">
                 <span class="bar"></span>
                 <span class="bar"></span>
                 <span class="bar"></span>
             </button>
-            
+
             <div class="navbar-collapse" id="navbar-collapse">
                 <ul class="navbar-nav">
-                    
+
                     <?php if ($isLoggedIn): ?>
                     <li class="nav-item">
                         <a href="profile.php" class="nav-link <?php echo $currentPage == 'profile.php' ? 'active' : ''; ?>">
@@ -331,7 +331,7 @@ $currentPage = basename($_SERVER['PHP_SELF']);
                     </li>
                     <?php endif; ?>
                 </ul>
-                
+
                 <div class="navbar-actions">
                     <?php if ($isLoggedIn): ?>
                         <a href="logout.php" class="btn btn-outline">Logout</a>

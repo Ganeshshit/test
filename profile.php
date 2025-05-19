@@ -23,43 +23,43 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update_profile'])) {
     $usn = sanitizeInput($_POST['usn']);
     $github_url = sanitizeInput($_POST['github']);
     $linkedin_url = sanitizeInput($_POST['linkedin']);
-    
+
     // Validate inputs
     if (empty($name)) {
         $errors[] = "Name is required";
     }
-    
+
     if (empty($phone)) {
         $errors[] = "Phone number is required";
     }
-    
+
     if (empty($institution)) {
         $errors[] = "Institution is required";
     }
-    
+
     if (empty($university)) {
         $errors[] = "University is required";
     }
-    
+
     if (empty($usn)) {
         $errors[] = "USN is required";
     }
-    
+
     if (!empty($github_url) && !filter_var($github_url, FILTER_VALIDATE_URL)) {
         $errors[] = "Invalid GitHub URL format";
     }
-    
+
     if (!empty($linkedin_url) && !filter_var($linkedin_url, FILTER_VALIDATE_URL)) {
         $errors[] = "Invalid LinkedIn URL format";
     }
-    
+
     // Handle resume upload
     $resume_path = $user['resume_path'];
     if (isset($_FILES['resume']) && $_FILES['resume']['error'] == 0) {
         $allowed = ['pdf', 'doc', 'docx'];
         $filename = $_FILES['resume']['name'];
         $filetype = pathinfo($filename, PATHINFO_EXTENSION);
-        
+
         // Verify file extension
         if (!in_array(strtolower($filetype), $allowed)) {
             $errors[] = "Resume must be a PDF, DOC, or DOCX file";
@@ -68,11 +68,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update_profile'])) {
             if (!file_exists('uploads')) {
                 mkdir('uploads', 0777, true);
             }
-            
+
             // Create a unique filename
             $new_filename = uniqid('resume_') . '.' . $filetype;
             $upload_path = 'uploads/' . $new_filename;
-            
+
             // Upload file
             if (move_uploaded_file($_FILES['resume']['tmp_name'], $upload_path)) {
                 // Delete old resume if exists
@@ -85,18 +85,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update_profile'])) {
             }
         }
     }
-    
+
     // If no errors, update profile
     if (empty($errors)) {
         $conn = getDbConnection();
-        
+
         // Check if email already exists (if changed)
         if ($email != $user['email']) {
             $stmt = $conn->prepare("SELECT id FROM students WHERE email = ? AND id != ?");
             $stmt->bind_param("si", $email, $_SESSION['user_id']);
             $stmt->execute();
             $result = $stmt->get_result();
-            
+
             if ($result->num_rows > 0) {
                 $errors[] = "Email already exists";
                 $stmt->close();
@@ -105,26 +105,26 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update_profile'])) {
                 $stmt->close();
             }
         }
-        
+
         if (empty($errors)) {
             // Update user profile
             $stmt = $conn->prepare("UPDATE students SET name = ?, phone = ?, institution = ?, university = ?, usn = ?, github = ?, linkedin = ?, resume_path = ? WHERE id = ?");
             $stmt->bind_param("ssssssssi", $name, $phone, $institution, $university, $usn, $github_url, $linkedin_url, $resume_path, $_SESSION['user_id']);
-            
+
             if ($stmt->execute()) {
                 $success = true;
                 // Update session variables
                 $_SESSION['name'] = $name;
-                
+
                 // Refresh user data
                 $user = getUserDetails($_SESSION['user_id']);
             } else {
                 $errors[] = "Profile update failed: " . $conn->error;
             }
-            
+
             $stmt->close();
         }
-        
+
         $conn->close();
     }
 }
@@ -141,10 +141,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update_profile'])) {
     <style>
         /* Root variables */
         :root {
-            --primary-color: #4361ee;
-            --secondary-color: #7209b7;
-            --accent-color: #ff9e00;
-            --text-color: #2b2d42;
+            --primary-color: #fcc250;
+            --secondary-color: #29354d;
+            --accent-color: #fcc250;
+            --text-color: #29354d;
             --bg-color: #ffffff;
             --hover-color: #f8f9fa;
             --light-gray: #f9fafc;
@@ -152,7 +152,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update_profile'])) {
             --card-shadow: 0 10px 20px rgba(0, 0, 0, 0.08);
             --transition: 0.25s ease;
         }
-        
+
         /* Base styles and reset */
         * {
             margin: 0;
@@ -160,7 +160,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update_profile'])) {
             box-sizing: border-box;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
-        
+
         body {
             background-color: var(--light-gray);
             color: var(--text-color);
@@ -172,20 +172,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update_profile'])) {
             text-decoration: none;
             color: inherit;
         }
-        
+
         /* Enhanced Profile Page Styles */
         .profile-container {
             max-width: 900px;
             margin: 40px auto;
             padding: 0 20px;
         }
-        
+
         .profile-header {
             text-align: center;
             margin-bottom: 30px;
             position: relative;
         }
-        
+
         .profile-header h1 {
             font-size: 2.5rem;
             font-weight: 700;
@@ -195,13 +195,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update_profile'])) {
             background-clip: text;
             -webkit-text-fill-color: transparent;
         }
-        
+
         .profile-subtitle {
             font-size: 1.1rem;
             color: #6c757d;
             margin-bottom: 10px;
         }
-        
+
         .profile-card {
             background: #fff;
             border-radius: 15px;
@@ -210,19 +210,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update_profile'])) {
             overflow: hidden;
             transition: transform 0.3s ease;
         }
-        
+
         .profile-card:hover {
             transform: translateY(-5px);
         }
-        
+
         .profile-content {
             padding: 20px 30px 30px;
         }
-        
+
         .form-section {
             margin-top: 20px;
         }
-        
+
         .section-title {
             font-size: 1.2rem;
             font-weight: 600;
@@ -231,36 +231,36 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update_profile'])) {
             border-bottom: 1px solid rgba(0, 0, 0, 0.1);
             color: var(--secondary-color);
         }
-        
+
         .form-floating {
             margin-bottom: 20px;
         }
-        
+
         .form-control {
             padding: 1rem 0.75rem;
             border: 1px solid rgba(0, 0, 0, 0.1);
             border-radius: 8px;
             transition: all 0.3s ease;
         }
-        
+
         .form-control:focus {
             border-color: var(--primary-color);
             box-shadow: 0 0 0 0.25rem rgba(67, 97, 238, 0.1);
         }
-        
+
         .form-control:disabled {
             background-color: rgba(0, 0, 0, 0.03);
         }
-        
+
         .form-label {
             font-weight: 500;
         }
-        
+
         .social-icon {
             margin-right: 10px;
             color: var(--primary-color);
         }
-        
+
         .btn-primary {
             background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
             border: none;
@@ -270,13 +270,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update_profile'])) {
             transition: all 0.3s ease;
             box-shadow: 0 4px 10px rgba(67, 97, 238, 0.2);
         }
-        
+
         .btn-primary:hover {
             transform: translateY(-2px);
             box-shadow: 0 6px 15px rgba(67, 97, 238, 0.3);
             background: linear-gradient(135deg, var(--secondary-color), var(--primary-color));
         }
-        
+
         .btn-secondary {
             background-color: transparent;
             color: var(--text-color);
@@ -286,12 +286,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update_profile'])) {
             font-weight: 500;
             transition: all 0.3s ease;
         }
-        
+
         .btn-secondary:hover {
             background-color: rgba(0, 0, 0, 0.05);
             border-color: rgba(0, 0, 0, 0.3);
         }
-        
+
         .resume-link {
             display: inline-flex;
             align-items: center;
@@ -300,52 +300,52 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update_profile'])) {
             transition: all 0.3s ease;
             margin-bottom: 15px;
         }
-        
+
         .resume-link:hover {
             color: var(--secondary-color);
         }
-        
+
         .resume-link i {
             margin-right: 8px;
         }
-        
+
         .alert {
             border-radius: 8px;
             margin-bottom: 25px;
         }
-        
+
         .alert-success {
             background-color: #d1e7dd;
             border-color: #badbcc;
             color: #0f5132;
         }
-        
+
         .alert-danger {
             background-color: #f8d7da;
             border-color: #f5c2c7;
             color: #842029;
         }
-        
+
         .form-actions {
             display: flex;
             gap: 15px;
             margin-top: 30px;
         }
-        
+
         /* Responsive design */
         @media (max-width: 768px) {
             .profile-container {
                 padding: 0 15px;
             }
-            
+
             .profile-content {
                 padding: 20px 20px 20px;
             }
-            
+
             .form-actions {
                 flex-direction: column;
             }
-            
+
             .btn {
                 width: 100%;
             }
@@ -374,12 +374,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update_profile'])) {
             align-items: center !important;
             flex-direction: row !important; /* Force horizontal layout */
         }
-    
+
         .nav-item {
             margin-left: 1.5rem !important;
         }
-    
-    
+
+
         .navbar-brand {
             display: flex;
             align-items: center;
@@ -387,13 +387,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update_profile'])) {
             font-size: 1.4rem;
             color: var(--primary-color);
         }
-    
+
         .logo {
             height: 36px;
             width: 36px;
             margin-right: 10px;
         }
-    
+
         .company-name {
             background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
             -webkit-background-clip: text;
@@ -402,7 +402,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update_profile'])) {
             font-weight: 700;
             letter-spacing: 0.5px;
         }
-    
+
         .navbar-toggle {
             display: none;
             background: transparent;
@@ -413,7 +413,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update_profile'])) {
             height: 24px;
             position: relative;
         }
-    
+
         .bar {
             display: block;
             width: 100%;
@@ -423,21 +423,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update_profile'])) {
             transition: all 0.3s ease;
             position: absolute;
         }
-    
+
         .bar:nth-child(1) {
             top: 0;
         }
-    
+
         .bar:nth-child(2) {
             top: 10px;
         }
-    
+
         .bar:nth-child(3) {
             top: 20px;
         }
-    
-    
-    
+
+
+
         .nav-link {
             color: var(--text-color);
             font-weight: 500;
@@ -446,18 +446,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update_profile'])) {
             border-radius: 6px;
             transition: all var(--transition);
         }
-    
+
         .nav-link:hover {
             color: var(--primary-color);
             background-color: var(--hover-color);
         }
-    
+
         .nav-link.active {
             color: var(--primary-color);
             font-weight: 600;
             position: relative;
         }
-    
+
         .nav-link.active::after {
             content: '';
             position: absolute;
@@ -468,7 +468,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update_profile'])) {
             background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
             border-radius: 3px;
         }
-    
+
         .btn-logout {
             color: #fff;
             background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
@@ -478,24 +478,24 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update_profile'])) {
             box-shadow: 0 4px 10px rgba(67, 97, 238, 0.15);
             transition: all 0.3s ease;
         }
-    
+
         .btn-logout:hover {
             transform: translateY(-2px);
             box-shadow: 0 6px 15px rgba(67, 97, 238, 0.25);
             color: #fff;
         }
-    
+
         /* Responsive design for navbar */
         @media (max-width: 768px) {
             .navbar {
                 padding: 0.75rem 1rem;
             }
-        
+
             .navbar-toggle {
                 display: block;
                 z-index: 1002;
             }
-        
+
             .navbar-nav {
                 position: fixed;
                 top: 0;
@@ -510,31 +510,31 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update_profile'])) {
                 box-shadow: -5px 0 15px rgba(0, 0, 0, 0.1);
                 z-index: 1001;
             }
-        
+
             .navbar-nav.active {
                 right: 0;
             }
-        
+
             .nav-item {
                 margin: 0 0 15px 0;
                 width: 100%;
             }
-        
+
             .nav-link {
                 display: block;
                 padding: 0.75rem 1rem;
                 width: 100%;
             }
-        
+
             .navbar-toggle.active .bar:nth-child(1) {
                 transform: rotate(45deg);
                 top: 10px;
             }
-        
+
             .navbar-toggle.active .bar:nth-child(2) {
                 opacity: 0;
             }
-        
+
             .navbar-toggle.active .bar:nth-child(3) {
                 transform: rotate(-45deg);
                 top: 10px;
@@ -547,16 +547,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update_profile'])) {
     <nav class="navbar" id="navbar">
     <a href="index.php" class="navbar-brand">
         <!-- Logo SVG -->
-        
+
         <span class="company-name">Medini</span>
     </a>
-    
+
     <button class="navbar-toggle" id="navbar-toggle" aria-label="Toggle navigation">
         <span class="bar"></span>
         <span class="bar"></span>
         <span class="bar"></span>
     </button>
-    
+
     <ul class="navbar-nav" id="navbar-nav">
         <li class="nav-item">
             <a href="index.php" class="nav-link <?php echo ($activePage == 'home') ? 'active' : ''; ?>">Home</a>
@@ -576,13 +576,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update_profile'])) {
             <h1>My Profile</h1>
             <p class="profile-subtitle">Manage your personal information and preferences</p>
         </div>
-        
+
         <?php if ($success): ?>
             <div class="alert alert-success">
                 <i class="fas fa-check-circle me-2"></i> Your profile has been updated successfully!
             </div>
         <?php endif; ?>
-        
+
         <?php if (!empty($errors)): ?>
             <div class="alert alert-danger">
                 <i class="fas fa-exclamation-circle me-2"></i> Please correct the following errors:
@@ -593,7 +593,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update_profile'])) {
                 </ul>
             </div>
         <?php endif; ?>
-        
+
         <div class="profile-card">
             <div class="profile-content">
                 <form method="POST" action="profile.php" enctype="multipart/form-data">
@@ -622,7 +622,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update_profile'])) {
                             </div>
                         </div>
                     </div>
-                    
+
                     <div class="form-section">
                         <h3 class="section-title">Academic Information</h3>
                         <div class="row">
@@ -648,7 +648,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update_profile'])) {
                             </div>
                         </div>
                     </div>
-                    
+
                     <div class="form-section">
                         <h3 class="section-title">Professional Profiles</h3>
                         <div class="row">
@@ -666,7 +666,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update_profile'])) {
                             </div>
                         </div>
                     </div>
-                    
+
                     <div class="form-section">
                         <h3 class="section-title">Resume</h3>
                         <?php if (!empty($user['resume_path'])): ?>
@@ -680,7 +680,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update_profile'])) {
                             <div class="form-text text-muted">Upload a new file to replace your current resume</div>
                         </div>
                     </div>
-                    
+
                     <div class="form-actions">
                         <button type="submit" name="update_profile" class="btn btn-primary">
                             <i class="fas fa-save me-2"></i> Save Changes
@@ -693,7 +693,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update_profile'])) {
             </div>
         </div>
     </div>
-    
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
